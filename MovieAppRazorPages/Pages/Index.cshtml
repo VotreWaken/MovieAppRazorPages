@@ -1,0 +1,43 @@
+﻿@page
+@model MovieAppRazorPages.Pages.IndexModel;
+<head>
+    <link rel="stylesheet" href="~/css/MyTop.css">
+</head>
+<body>
+
+    <div class="rightBar" id="rightBar">
+        @foreach (var movie in Model.Movies)
+        {
+            <div class="filmItem">
+                <a asp-page="/Movies/Details" asp-route-id="@movie.Id">
+                    <img draggable="false" src="@($"{movie.FilmImage}")" width="300" alt="img" />
+                </a>
+                <div class="filmContent">
+                    <h1 class="filmContentTitle">@($"{movie.Id}. {movie.MovieTitle}")</h1>
+                    <p class="filmContentDescription">@movie.MovieDescription</p>
+                    <h3 class="filmContentDirector">Director: @movie.Director</h3>
+                    <h3 class="filmContentGenre">
+                        Genre:
+                        <div class="genre-buttons">
+                            @foreach (var genre in movie.MovieGenres)
+                            {
+                                <div class="genre-button">
+                                    <span>@genre.Genre.GenreName</span>
+                                </div>
+                            }
+                        </div>
+                    </h3>
+                    <h4 class="filmContentProductionDate">Production Date: @movie.ProductionDate.ToString("yyyy")</h4>
+                    <div class="filmEditDeleteButtons">
+                        <a asp-page="/Movies/Edit" asp-route-id="@movie.Id" class="filmContentEditBtn">Edit</a>
+                        <form class="formButton" asp-page="/Movies/Delete" method="post">
+                            <input type="hidden" name="id" value="@movie.Id" />
+                            <button type="submit" class="filmContentDeleteBtn">Delete</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+</body>

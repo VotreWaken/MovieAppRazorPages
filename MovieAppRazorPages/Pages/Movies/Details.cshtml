@@ -1,0 +1,25 @@
+﻿@page
+@model MovieAppRazorPages.Pages.Movies.DetailsModel;
+@{
+}
+<div class="rightBar" id="rightBar">
+    <div class="filmItem">
+        <img draggable="false" src="@Html.DisplayFor(model => model.Movies.FilmImage)" width="300" alt="img" />
+
+        <div class="filmContent">
+            <h1 class="filmContentTitle">@Html.DisplayFor(model => model.Movies.Id). @Html.DisplayFor(model => model.Movies.MovieTitle)</h1>
+            <p class="filmContentDescription">@Html.DisplayFor(model => model.Movies.MovieDescription)</p>
+            <h3 class="filmContentDirector">Director: @Html.DisplayFor(model => model.Movies.Director)</h3>
+            <h3 class="filmContentGenre">Genre:</h3>
+            <div class="genre-buttons">
+                @foreach (var genre in Model.Movies.MovieGenres)
+                {
+                    <div class="genre-button">
+                        <span>@genre.Genre.GenreName</span>
+                    </div>
+                }
+            </div>
+            <h4 class="filmContentProductionDate">Production Date: @Html.Raw(Model.Movies.ProductionDate.ToShortDateString())</h4>
+        </div>
+    </div>
+</div>

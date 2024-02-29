@@ -1,0 +1,65 @@
+﻿@page
+@model MovieAppRazorPages.Pages.Movies.EditModel;
+@{
+}
+<div class="rightBar" id="rightBar">
+    <form method="post" enctype="multipart/form-data">
+        <div class="filmItem">
+            <div class="filmItemImage">
+                <img draggable="false" src="@Html.DisplayFor(model => model.Movies.FilmImage)" width="300" alt="img" />
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="Movies.Id" />
+                <label asp-for="Movies.FilmImage" class="control-label">Film Image</label>
+                <input id="filmImageInput" asp-for="Movies.FilmImage" class="form-control" />
+
+                <input id="fileUploadInput" type="file" name="fileUpload" class="form-control" />
+            </div>
+            <div class="filmContent">
+                <h1 class="filmContentTitle">@Html.DisplayFor(model => model.Movies.Id). @Html.DisplayFor(model => model.Movies.MovieTitle)</h1>
+                <label asp-for="Movies.MovieTitle" class="control-label">Title</label>
+                <input asp-for="Movies.MovieTitle" class="form-control" />
+                <label asp-for="Movies.MovieDescription" class="control-label">Description</label>
+                <input asp-for="Movies.MovieDescription" class="form-control" />
+                <label asp-for="Movies.Director" class="control-label">Director</label>
+                <input asp-for="Movies.Director" class="form-control" />
+                <div class="genre-buttons">
+                    <div class="form-group">
+                        <label asp-for="Movies.SelectedGenres" class="control-label">Genres</label>
+                        <select asp-for="Movies.SelectedGenres" asp-items="@(new SelectList((IEnumerable<MovieAppRazorPages.Models.Genre>)ViewData["AllGenres"], "Id", "GenreName"))" class="form-control" multiple id="genreSelect" name="SelectedGenres"></select>
+                    </div>
+                </div>
+                <label asp-for="Movies.ProductionDate" class="control-label">Production Date</label>
+                <input asp-for="Movies.ProductionDate" class="form-control" type="date" />
+            </div>
+        </div>
+        <div class="buttons">
+            <button type="submit" class="EditConfirmBtn">Confirm</button>
+            <button type="reset" class="EditDeclineBtn">Decline</button>
+        </div>
+    </form>
+    <input type="hidden" asp-for="Movies.SelectedGenres" id="selectedGenres" name="SelectedGenres" />
+</div>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        var genreSelect = $('#genreSelect');
+
+        genreSelect.change(function () {
+            console.log(genreSelect.val());
+        });
+    });
+
+    document.addEventListener('DOMContentLoaded', function () {
+        var filmImageInput = document.getElementById('filmImageInput');
+        var fileUploadInput = document.getElementById('fileUploadInput');
+
+        fileUploadInput.addEventListener('change', function () {
+            var fileName = fileUploadInput.value.split('\\').pop();
+
+            var newPath = "/img/MyTop/" + fileName;
+
+            filmImageInput.value = newPath;
+        });
+    });
+</script>

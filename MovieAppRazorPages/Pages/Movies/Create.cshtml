@@ -1,0 +1,130 @@
+﻿@page
+@model MovieAppRazorPages.Pages.Movies.CreateModel;
+@{
+}
+<!-- Right Bar Section -->
+<div class="rightBar" id="rightBar">
+
+    <!-- Create Form Section ( Controller Create Action using Post Method With Sending Image Data ) -->
+    <form asp-action="Create" method="post" enctype="multipart/form-data">
+
+        <!-- Movie Item Section -->
+        <div class="filmItem">
+
+            <!-- Movie Image Information -->
+            <div class="filmItemImage">
+
+                <!-- Movie Image -->
+                <img draggable="false" src="@Html.DisplayFor(model => model.Movies.FilmImage)" width="300" alt="img" />
+                <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+                <input type="hidden" asp-for="Movies.Id" />
+                <label asp-for="Movies.FilmImage" class="control-label">Film Image</label>
+
+                <!-- Upload File Path Input -->
+                <input id="filmImageInput" asp-for="Movies.FilmImage" class="form-control" />
+
+                <!-- Upload File Button -->
+                <input id="fileUploadInput" type="file" name="fileUpload" class="form-control" />
+            </div>
+
+            <!-- Movie Content Information -->
+            <div class="filmContent">
+
+                <!-- Movie Content Title Information -->
+                <span asp-validation-for="Movies.MovieTitle" class="text-info"></span>
+                <label asp-for="Movies.MovieTitle" class="control-label">Title</label>
+                <input asp-for="Movies.MovieTitle" class="form-control" />
+
+                <!-- Movie Content Description Information -->
+                <span asp-validation-for="Movies.MovieDescription" class="text-info"></span>
+                <label asp-for="Movies.MovieDescription" class="control-label">Description</label>
+                <input asp-for="Movies.MovieDescription" class="form-control" />
+
+                <!-- Movie Content Director Information -->
+                <span asp-validation-for="Movies.Director" class="text-info"></span>
+                <label asp-for="Movies.Director" class="control-label">Director</label>
+                <input asp-for="Movies.Director" class="form-control" />
+
+                <!-- Movie Content Genre Information -->
+                <div class="genre-buttons">
+                    <div class="form-group">
+                        <label asp-for="Movies.SelectedGenres" class="control-label">Genres</label>
+                        <select asp-for="Movies.SelectedGenres" asp-items="@(new SelectList((IEnumerable<MovieAppRazorPages.Models.Genre>)ViewData["AllGenres"], "Id", "GenreName"))" class="form-control" multiple id="genreSelect" name="SelectedGenres"></select>
+                    </div>
+                </div>
+
+                <!-- Movie Content Production Date Information -->
+                <span asp-validation-for="Movies.ProductionDate" class="text-info"></span>
+                <label asp-for="Movies.ProductionDate" class="control-label">Production Date</label>
+                <input asp-for="Movies.ProductionDate" class="form-control" type="date" />
+
+            </div>
+
+        </div>
+
+        <!-- Create Movie Submit Action -->
+        <div class="buttons">
+            <button type="submit" class="EditConfirmBtn">Confirm</button>
+            <button type="reset" class="EditDeclineBtn">Decline</button>
+        </div>
+
+    </form>
+
+    <!-- Hidden Input Using To Pass Values of Selected Genres To Controller -->
+    <!-- Before That Javascript using Jquery Create Array of That Selected Genres Value -->
+    <input type="hidden" asp-for="Movies.SelectedGenres" id="selectedGenres" name="SelectedGenres" />
+</div>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+
+<script>
+    // Pass Values of Selected Genres To Controller
+
+    // When Document Ready
+    $(document).ready(function () {
+
+        // Get Reference To List of Choosen Genres
+        var genreSelect = $('#genreSelect');
+
+        // Selected Genres Handler
+        genreSelect.change(function () {
+            // Display Selected Genres to Console
+            console.log(genreSelect.val());
+        });
+
+    });
+
+
+    document.addEventListener('DOMContentLoaded', function () {
+
+        var filmImageInput = document.getElementById('filmImageInput');
+        var fileUploadInput = document.getElementById('fileUploadInput');
+        var filmImage = document.querySelector('.filmItemImage img');
+
+        fileUploadInput.addEventListener('change', function () {
+            var file = fileUploadInput.files[0];
+            var fileName = fileUploadInput.value.split('\\').pop();
+
+
+            var newPath = "/img/MyTop/" + fileName;
+
+            filmImageInput.value = newPath;
+            if (file) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    filmImage.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    });
+</script>
+
+
+<!-- Validation Scripts -->
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

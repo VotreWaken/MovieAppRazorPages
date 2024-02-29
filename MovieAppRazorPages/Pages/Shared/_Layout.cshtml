@@ -1,0 +1,52 @@
+﻿
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - MovieApplication</title>
+    <link rel="stylesheet" href="/css/MyTop.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    <div class="container">
+        <div class="leftBar">
+            <img class="burger-menu" src="/img/LeftBar/burger-menu.svg">
+            <img class="leftBarLogo" draggable="false" src="/img/LeftBar/Logo.svg" alt="">
+            <ul class="leftBarItems">
+                <li>
+                    <img src="/img/LeftBar/HomeImage.svg" alt="">
+                    <a href="/">Home</a>
+                </li>
+                <li>
+                    <img src="/img/LeftBar/TrendingImage.svg" alt="">
+                    <a href="/Trending.html">Trending</a>
+                </li>
+                <li>
+                    <img src="/img/LeftBar/CategoryImage.svg" alt="">
+                    <a href="/Category.html">Category</a>
+                </li>
+                <li>
+                    <img src="/img/LeftBar/SettingsImage.svg" alt="">
+                    <a href="/MyTop.html">My Top</a>
+                </li>
+                <li>
+                    <img src="/img/LeftBar/SettingsImage.svg" alt="">
+                    <a asp-page="/Movies/Create">
+                        Add Film
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+
+        @RenderBody()
+
+    </div>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script defer src="~/js/MyTop.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
